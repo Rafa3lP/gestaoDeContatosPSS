@@ -26,6 +26,10 @@ public class ContatoCollection {
     public List<Contato> getContatos() {
         return Collections.unmodifiableList(contatos);
     }
+    
+    public void add(Contato contato){
+        contatos.add(contato);
+    }
 
     public void ordenaTelefone(){
         Collections.sort(contatos, new Comparator<Contato>() {

@@ -7,6 +7,12 @@ package br.ufes.gestaodecontatospss.view;
 
 import javax.swing.JButton;
 import javax.swing.JTable;
+import javax.swing.RowSorter;
+import javax.swing.RowSorter.SortKey;
+import javax.swing.SortOrder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -55,6 +61,11 @@ public class ListarContatosView extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tblContatos);
 
         cbOrdenaPorTelefone.setText("Ordena por telefone");
+        cbOrdenaPorTelefone.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbOrdenaPorTelefoneActionPerformed(evt);
+            }
+        });
 
         btnVisualizar.setText("Visualizar");
 
@@ -96,6 +107,15 @@ public class ListarContatosView extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cbOrdenaPorTelefoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbOrdenaPorTelefoneActionPerformed
+        /*Heflain - o código abaixo apena ordena a tabela ao marca o checkbox, mas não volta ao normal quando
+        o checkbox é desmarcado*/        
+        /*TableRowSorter tableSorter = new TableRowSorter(tblContatos.getModel());
+        tblContatos.setRowSorter(tableSorter);
+        tableSorter.toggleSortOrder(1);*/
+        
+    }//GEN-LAST:event_cbOrdenaPorTelefoneActionPerformed
 
     public JButton getBtnExcluir() {
         return btnExcluir;

@@ -4,6 +4,7 @@
  */
 package br.ufes.gestaodecontatospss.view;
 
+import br.ufes.gestaodecontatospss.collection.ContatoCollection;
 import br.ufes.gestaodecontatospss.presenter.IncluirPessoasPresenter;
 import br.ufes.gestaodecontatospss.presenter.ListarContatosPresenter;
 
@@ -12,11 +13,15 @@ import br.ufes.gestaodecontatospss.presenter.ListarContatosPresenter;
  * @author Rafael e Heflain
  */
 public class PrincipalView extends javax.swing.JFrame {
-
+    private ContatoCollection contatos;
     /**
-     * Creates new form PrincipalView
+     * 
+     * @param contatos 
      */
-    public PrincipalView() {
+    public PrincipalView(ContatoCollection contatos) {
+        
+        this.contatos = contatos;
+        
         initComponents();
         this.setLocationRelativeTo(this.getParent());
         this.setExtendedState(MAXIMIZED_BOTH);
@@ -82,11 +87,11 @@ public class PrincipalView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIncluirContatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIncluirContatoActionPerformed
-        IncluirPessoasPresenter presenter = new IncluirPessoasPresenter();
+        IncluirPessoasPresenter presenter = new IncluirPessoasPresenter(contatos);
     }//GEN-LAST:event_btnIncluirContatoActionPerformed
 
     private void btnListagemDePessoasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListagemDePessoasActionPerformed
-        ListarContatosPresenter presenter = new ListarContatosPresenter();
+        ListarContatosPresenter presenter = new ListarContatosPresenter(contatos);
     }//GEN-LAST:event_btnListagemDePessoasActionPerformed
 
     

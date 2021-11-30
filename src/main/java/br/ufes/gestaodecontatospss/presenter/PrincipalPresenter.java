@@ -4,6 +4,7 @@
  */
 package br.ufes.gestaodecontatospss.presenter;
 
+import br.ufes.gestaodecontatospss.collection.ContatoCollection;
 import br.ufes.gestaodecontatospss.view.PrincipalView;
 
 /**
@@ -12,6 +13,7 @@ import br.ufes.gestaodecontatospss.view.PrincipalView;
  */
 public class PrincipalPresenter {
     public static void main(String[] args){
-        new PrincipalView();
+        ContatoCollection contatos = new ContatoCollection();
+        PrincipalView principalView = new PrincipalView(contatos);
     }
 }
