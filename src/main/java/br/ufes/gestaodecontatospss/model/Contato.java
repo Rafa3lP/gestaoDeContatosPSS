@@ -9,6 +9,21 @@ package br.ufes.gestaodecontatospss.model;
  *
  * @author Rafael
  */
-public class Contato {
-    
+public class Contato{
+    private String nome;
+    private String Telefone;
+
+    public Contato(String nome, String Telefone) {
+        this.nome = nome;
+        this.Telefone = Telefone;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getTelefone() {
+        return Telefone;
+    }    
 }
+
