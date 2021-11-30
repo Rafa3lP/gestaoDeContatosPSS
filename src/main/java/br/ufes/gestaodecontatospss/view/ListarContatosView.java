@@ -44,7 +44,7 @@ public class ListarContatosView extends javax.swing.JFrame {
         btnExcluir = new javax.swing.JButton();
         btnFechar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Listagem de pessoas cadastradas");
 
         tblContatos.setModel(new javax.swing.table.DefaultTableModel(
@@ -106,6 +106,7 @@ public class ListarContatosView extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void cbOrdenaPorTelefoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbOrdenaPorTelefoneActionPerformed

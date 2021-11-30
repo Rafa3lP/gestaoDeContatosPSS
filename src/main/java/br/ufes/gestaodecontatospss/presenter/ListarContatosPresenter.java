@@ -5,12 +5,14 @@
  */
 package br.ufes.gestaodecontatospss.presenter;
 
-import br.ufes.gestaodecontatospss.collection.ContatoCollection;
+import br.ufes.gestaodecontatospss.dao.ContatoDAO;
 import br.ufes.gestaodecontatospss.model.Contato;
 import br.ufes.gestaodecontatospss.view.ListarContatosView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ListIterator;
+import java.sql.SQLException;
+import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
@@ -19,28 +21,40 @@ import javax.swing.table.DefaultTableModel;
  * @author Rafael e Heflain
  */
 public class ListarContatosPresenter {
+    
     private ListarContatosView view;
     private DefaultTableModel tmTable;
-    private ContatoCollection contatos;
+    private List<Contato> contatos;
+    private ContatoDAO contatoDAO;
     
-    public ListarContatosPresenter(ContatoCollection contatos){
+    public ListarContatosPresenter() {
         
-        Contato contato;
+        this.contatoDAO = new ContatoDAO();
         
-        this.contatos = contatos;
+        try{
+            
+            this.contatos = contatoDAO.getContatos();
+            
+        } catch(SQLException ex) {
+            
+            JOptionPane.showMessageDialog(
+                view,
+                "Falha ao consultar contatos: " + ex.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+            );
+            
+        }
+        
         this.view = new ListarContatosView();
         this.tmTable = new DefaultTableModel(new Object[][]{}, new String[]{"Nome", "Telefone"});
-        
         this.tmTable.setNumRows(0);
         
         this.view.getTblContatos().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         
-        ListIterator<Contato> it = this.contatos.getContatos().listIterator();
-        
-        while(it.hasNext()){
-            contato = it.next();
-            tmTable.addRow(new Object[]{contato.getNome(), contato.getTelefone()});
-    }
+        for(Contato c: this.contatos) {
+            tmTable.addRow(new Object[]{c.getNome(), c.getTelefone()});
+        }
         
         this.view.getTblContatos().setModel(tmTable);
                 
@@ -80,4 +94,5 @@ public class ListarContatosPresenter {
     private void Fechar(){
         this.view.dispose();
     }
+    
 }

@@ -4,16 +4,42 @@
  */
 package br.ufes.gestaodecontatospss.presenter;
 
-import br.ufes.gestaodecontatospss.collection.ContatoCollection;
+import br.ufes.gestaodecontatospss.dao.ContatoDAO;
 import br.ufes.gestaodecontatospss.view.PrincipalView;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Rafael e Heflain
  */
 public class PrincipalPresenter {
+    
+    private static PrincipalView view;
+    
     public static void main(String[] args){
-        ContatoCollection contatos = new ContatoCollection();
-        PrincipalView principalView = new PrincipalView(contatos);
+        view = new PrincipalView();
+        iniciar();
+    }
+    
+    private static void iniciar() {
+        try {
+            
+            ContatoDAO.criaTContatos();
+            
+        } catch (SQLException ex) {
+            
+            JOptionPane.showMessageDialog(
+                    view, 
+                    ex.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE
+            );
+            
+            view.dispose();
+            System.exit(0);
+        }
+        
+        view.setVisible(true);
     }
 }
