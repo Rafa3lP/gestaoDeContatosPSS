@@ -4,7 +4,7 @@
  */
 package br.ufes.gestaodecontatospss.view;
 
-import br.ufes.gestaodecontatospss.presenter.IncluirPessoasPresenter;
+import br.ufes.gestaodecontatospss.presenter.ManterContatosPresenter;
 import br.ufes.gestaodecontatospss.presenter.ListarContatosPresenter;
 
 /**
@@ -79,7 +79,7 @@ public class PrincipalView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIncluirContatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIncluirContatoActionPerformed
-        IncluirPessoasPresenter presenter = new IncluirPessoasPresenter();
+        ManterContatosPresenter presenter = new ManterContatosPresenter();
     }//GEN-LAST:event_btnIncluirContatoActionPerformed
 
     private void btnListagemDePessoasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListagemDePessoasActionPerformed

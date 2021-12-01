@@ -13,7 +13,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -34,16 +33,66 @@ public class ContatoDAO {
         Statement st = conexao.createStatement();
         st.execute(sql);
         
+        st.close();
+        conexao.close();
+        
     }
     
     public void inserir(Contato contato) throws SQLException {
         
-        String sql = "INSERT INTO contatos(nome, telefone) VALUES(?, ?)";
+        String sql = "INSERT INTO contatos(nome, telefone) "
+                + "VALUES(?, ?)";
         Connection conexao = ConexaoSQLite.conectar();
         PreparedStatement pstm = conexao.prepareStatement(sql);
         
         pstm.setString(1, contato.getNome());
         pstm.setString(2, contato.getTelefone());
+        
+        pstm.execute();
+        
+        pstm.close();
+        conexao.close();
+        
+    }
+    
+    public void excluir(Contato contato) throws SQLException {
+        
+        String sql = "DELETE FROM contatos "
+                + "WHERE "
+                + "nome = ? "
+                + "AND "
+                + "telefone = ?";
+        
+        Connection conexao = ConexaoSQLite.conectar();
+        PreparedStatement pstm = conexao.prepareStatement(sql);
+        
+        pstm.setString(1, contato.getNome());
+        pstm.setString(2, contato.getTelefone());
+        
+        pstm.execute();
+        
+        pstm.close();
+        conexao.close();
+        
+    }
+    
+    public void atualizar(Contato contatoNew, Contato contatoOld) throws SQLException {
+        
+        String sql = "UPDATE contatos "
+                + "SET nome = ?, "
+                + "telefone = ? "
+                + "WHERE "
+                + "nome = ? "
+                + "AND "
+                + "telefone = ?";
+        
+        Connection conexao = ConexaoSQLite.conectar();
+        PreparedStatement pstm = conexao.prepareStatement(sql);
+        
+        pstm.setString(1, contatoNew.getNome());
+        pstm.setString(2, contatoNew.getTelefone());
+        pstm.setString(3, contatoOld.getNome());
+        pstm.setString(4, contatoOld.getTelefone());
         
         pstm.execute();
         
@@ -75,7 +124,7 @@ public class ContatoDAO {
         st.close();
         conexao.close();
         
-        return Collections.unmodifiableList(contatos);
+        return contatos;
         
     }
     

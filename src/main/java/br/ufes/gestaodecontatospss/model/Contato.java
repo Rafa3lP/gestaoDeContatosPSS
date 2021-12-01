@@ -18,12 +18,28 @@ public class Contato{
         this.Telefone = Telefone;
     }
 
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setTelefone(String Telefone) {
+        this.Telefone = Telefone;
+    }
+
     public String getNome() {
         return nome;
     }
 
     public String getTelefone() {
         return Telefone;
-    }    
+    }
+    
+    @Override
+    public String toString() {
+        
+        return "Contato: " + this.nome + " tel: " + this.Telefone;
+        
+    }
+    
 }
 
