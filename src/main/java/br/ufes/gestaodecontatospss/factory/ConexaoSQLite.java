@@ -5,6 +5,7 @@
  */
 package br.ufes.gestaodecontatospss.factory;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -21,6 +22,13 @@ public class ConexaoSQLite {
         
         return DriverManager.getConnection(DB_URL);
         
+    }
+    
+    public static void checkDiretorioDb() {
+        File diretorio = new File("db/");
+        if (!diretorio.exists()){
+            diretorio.mkdirs();
+        }
     }
     
 }

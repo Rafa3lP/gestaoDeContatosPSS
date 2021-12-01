@@ -5,6 +5,7 @@
 package br.ufes.gestaodecontatospss.presenter;
 
 import br.ufes.gestaodecontatospss.dao.ContatoDAO;
+import br.ufes.gestaodecontatospss.factory.ConexaoSQLite;
 import br.ufes.gestaodecontatospss.view.PrincipalView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,6 +26,9 @@ public class PrincipalPresenter {
     }
     
     private static void iniciar() {
+        
+        ConexaoSQLite.checkDiretorioDb();
+        
         try {
             
             ContatoDAO.criaTContatos();
