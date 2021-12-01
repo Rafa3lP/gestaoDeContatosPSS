@@ -6,13 +6,9 @@
 package br.ufes.gestaodecontatospss.view;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 import javax.swing.JTable;
-import javax.swing.RowSorter;
-import javax.swing.RowSorter.SortKey;
-import javax.swing.SortOrder;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -39,10 +35,12 @@ public class ListarContatosView extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         tblContatos = new javax.swing.JTable();
-        javax.swing.JCheckBox cbOrdenaPorTelefone = new javax.swing.JCheckBox();
         btnVisualizar = new javax.swing.JButton();
         btnExcluir = new javax.swing.JButton();
         btnFechar = new javax.swing.JButton();
+        cbOrdenarTelefone = new javax.swing.JCheckBox();
+        jLabel1 = new javax.swing.JLabel();
+        lblTotal = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Listagem de pessoas cadastradas");
@@ -60,18 +58,17 @@ public class ListarContatosView extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tblContatos);
 
-        cbOrdenaPorTelefone.setText("Ordena por telefone");
-        cbOrdenaPorTelefone.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbOrdenaPorTelefoneActionPerformed(evt);
-            }
-        });
-
         btnVisualizar.setText("Visualizar");
 
         btnExcluir.setText("Excluir");
 
         btnFechar.setText("Fechar");
+
+        cbOrdenarTelefone.setText("Ordenar por Telefone");
+
+        jLabel1.setText("Total:");
+
+        lblTotal.setText("0");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -80,43 +77,45 @@ public class ListarContatosView extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(cbOrdenarTelefone)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnVisualizar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnExcluir)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnVisualizar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnExcluir)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnFechar))
-                    .addComponent(cbOrdenaPorTelefone)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnFechar)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(23, 23, 23)
+                                .addComponent(lblTotal)))))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(cbOrdenaPorTelefone)
-                .addGap(18, 18, 18)
+                .addGap(29, 29, 29)
+                .addComponent(cbOrdenarTelefone)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnVisualizar)
                     .addComponent(btnExcluir)
                     .addComponent(btnFechar))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(lblTotal))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void cbOrdenaPorTelefoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbOrdenaPorTelefoneActionPerformed
-        /*Heflain - o código abaixo apena ordena a tabela ao marca o checkbox, mas não volta ao normal quando
-        o checkbox é desmarcado*/        
-        /*TableRowSorter tableSorter = new TableRowSorter(tblContatos.getModel());
-        tblContatos.setRowSorter(tableSorter);
-        tableSorter.toggleSortOrder(1);*/
-        
-    }//GEN-LAST:event_cbOrdenaPorTelefoneActionPerformed
 
     public JButton getBtnExcluir() {
         return btnExcluir;
@@ -134,12 +133,23 @@ public class ListarContatosView extends javax.swing.JFrame {
         return tblContatos;
     }
     
-
+    public JCheckBox getCbOrdenarTelefone() {
+        return cbOrdenarTelefone;
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnFechar;
     private javax.swing.JButton btnVisualizar;
+    private javax.swing.JCheckBox cbOrdenarTelefone;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblTotal;
     private javax.swing.JTable tblContatos;
     // End of variables declaration//GEN-END:variables
+
+    public JLabel getLblTotal() {
+        return lblTotal;
+    }
+
 }

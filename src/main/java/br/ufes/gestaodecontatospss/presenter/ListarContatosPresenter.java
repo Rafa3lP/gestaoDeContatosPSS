@@ -11,13 +11,19 @@ import br.ufes.gestaodecontatospss.model.ContatoTableModel;
 import br.ufes.gestaodecontatospss.view.ListarContatosView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -30,6 +36,7 @@ public class ListarContatosPresenter {
     private JTable tbContatos;
     private List<Contato> contatos;
     private ContatoDAO contatoDAO;
+    private TableRowSorter contatosSorter;
     
     public ListarContatosPresenter() {
         
@@ -52,15 +59,31 @@ public class ListarContatosPresenter {
         
         tmContatos = new ContatoTableModel(contatos);
         
+        contatosSorter = new TableRowSorter(tmContatos);
+       
+        
         this.view = new ListarContatosView();
         
         habilitaEdicao(false);
+        
+        atualizaTotal();
         
         this.tbContatos = this.view.getTblContatos();
         
         this.tbContatos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         
         this.tbContatos.setModel(tmContatos);
+        
+        this.tbContatos.setRowSorter(contatosSorter);
+        
+        this.tbContatos.getTableHeader().setReorderingAllowed(false);
+        
+        for(int i = 0; i < this.tbContatos.getColumnCount(); i++) {
+            
+            contatosSorter.setSortable(i, false);
+            
+            
+        }
         
         this.tbContatos.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             
@@ -75,6 +98,19 @@ public class ListarContatosPresenter {
                 
             }   
         
+        });
+        
+        this.view.getCbOrdenarTelefone().addItemListener(new ItemListener(){
+            
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if(view.getCbOrdenarTelefone().isSelected()) {
+                    ordenarTelefone(true);
+                }else{
+                    ordenarTelefone(false);
+                }
+            }
+       
         });
         
         this.view.getBtnVisualizar().addActionListener(new ActionListener(){
@@ -125,6 +161,7 @@ public class ListarContatosPresenter {
                 case 0:
                     this.contatoDAO.excluir(c);
                     this.tmContatos.excluirContato(linha);
+                    atualizaTotal();
                     break;
                 case 1:
                 default:
@@ -155,6 +192,24 @@ public class ListarContatosPresenter {
             this.view.getBtnVisualizar().setEnabled(false);
             this.view.getBtnExcluir().setEnabled(false);
         }
+        
+    }
+    
+    private void ordenarTelefone(boolean b) {
+        
+        if(b) {
+            List <RowSorter.SortKey> sortKeys = new ArrayList<>();
+            sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
+            this.contatosSorter.setSortKeys(sortKeys);
+        } else {
+            this.contatosSorter.setSortKeys(null);
+        }
+        
+    }
+    
+    private void atualizaTotal() {
+        
+        this.view.getLblTotal().setText(Integer.toString(tmContatos.getRowCount()));
         
     }
     

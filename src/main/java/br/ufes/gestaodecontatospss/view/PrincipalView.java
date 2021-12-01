@@ -4,8 +4,7 @@
  */
 package br.ufes.gestaodecontatospss.view;
 
-import br.ufes.gestaodecontatospss.presenter.ManterContatosPresenter;
-import br.ufes.gestaodecontatospss.presenter.ListarContatosPresenter;
+import javax.swing.JMenuItem;
 
 /**
  *
@@ -32,8 +31,9 @@ public class PrincipalView extends javax.swing.JFrame {
 
         mbMenuPrincipal = new javax.swing.JMenuBar();
         bntOpcoes = new javax.swing.JMenu();
-        btnIncluirContato = new javax.swing.JMenuItem();
-        btnListagemDePessoas = new javax.swing.JMenuItem();
+        btnNovoContato = new javax.swing.JMenuItem();
+        btnListarContatos = new javax.swing.JMenuItem();
+        btnFechar = new javax.swing.JMenuItem();
         btnJanela = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -41,21 +41,24 @@ public class PrincipalView extends javax.swing.JFrame {
 
         bntOpcoes.setText("Opções");
 
-        btnIncluirContato.setText("Incluir contato");
-        btnIncluirContato.addActionListener(new java.awt.event.ActionListener() {
+        btnNovoContato.setText("Novo Contato");
+        btnNovoContato.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnIncluirContatoActionPerformed(evt);
+                btnNovoContatoActionPerformed(evt);
             }
         });
-        bntOpcoes.add(btnIncluirContato);
+        bntOpcoes.add(btnNovoContato);
 
-        btnListagemDePessoas.setText("Listagem de pessoas");
-        btnListagemDePessoas.addActionListener(new java.awt.event.ActionListener() {
+        btnListarContatos.setText("Listar Contatos");
+        btnListarContatos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnListagemDePessoasActionPerformed(evt);
+                btnListarContatosActionPerformed(evt);
             }
         });
-        bntOpcoes.add(btnListagemDePessoas);
+        bntOpcoes.add(btnListarContatos);
+
+        btnFechar.setText("Fechar o Sistema");
+        bntOpcoes.add(btnFechar);
 
         mbMenuPrincipal.add(bntOpcoes);
 
@@ -78,21 +81,33 @@ public class PrincipalView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnIncluirContatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIncluirContatoActionPerformed
-        ManterContatosPresenter presenter = new ManterContatosPresenter();
-    }//GEN-LAST:event_btnIncluirContatoActionPerformed
+    private void btnNovoContatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoContatoActionPerformed
+        
+    }//GEN-LAST:event_btnNovoContatoActionPerformed
 
-    private void btnListagemDePessoasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListagemDePessoasActionPerformed
-        ListarContatosPresenter presenter = new ListarContatosPresenter();
-    }//GEN-LAST:event_btnListagemDePessoasActionPerformed
+    private void btnListarContatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarContatosActionPerformed
+        
+    }//GEN-LAST:event_btnListarContatosActionPerformed
 
-    
+    public JMenuItem getBtnFechar() {
+        return btnFechar;
+    }
+
+    public JMenuItem getBtnListarContatos() {
+        return btnListarContatos;
+    }
+
+    public JMenuItem getBtnNovoContato() {
+        return btnNovoContato;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu bntOpcoes;
-    private javax.swing.JMenuItem btnIncluirContato;
+    private javax.swing.JMenuItem btnFechar;
     private javax.swing.JMenu btnJanela;
-    private javax.swing.JMenuItem btnListagemDePessoas;
+    private javax.swing.JMenuItem btnListarContatos;
+    private javax.swing.JMenuItem btnNovoContato;
     private javax.swing.JMenuBar mbMenuPrincipal;
     // End of variables declaration//GEN-END:variables
+    
 }

@@ -6,6 +6,8 @@ package br.ufes.gestaodecontatospss.presenter;
 
 import br.ufes.gestaodecontatospss.dao.ContatoDAO;
 import br.ufes.gestaodecontatospss.view.PrincipalView;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
@@ -37,9 +39,42 @@ public class PrincipalPresenter {
             );
             
             view.dispose();
-            System.exit(0);
+            System.exit(1);
+            
         }
+        
+        view.getBtnFechar().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                fechar();
+            }
+        
+        });
+        
+        view.getBtnListarContatos().addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new ListarContatosPresenter();
+            }
+            
+        });
+        
+        view.getBtnNovoContato().addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new ManterContatosPresenter();
+            }
+            
+        });
         
         view.setVisible(true);
     }
+    
+    private static void fechar() {
+        
+        view.dispose();
+        System.exit(0);
+        
+    }
+    
 }

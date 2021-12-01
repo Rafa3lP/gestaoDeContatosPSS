@@ -5,7 +5,6 @@
 package br.ufes.gestaodecontatospss.view;
 
 import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
 import javax.swing.JTextField;
 
 /**
