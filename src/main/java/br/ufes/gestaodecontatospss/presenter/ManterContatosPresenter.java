@@ -50,22 +50,41 @@ public class ManterContatosPresenter {
     public ManterContatosPresenter(Contato contato) {
         //modo de visualização
         this.view = new ManterContatosView();
+        
+        this.view.getBtnSalvar().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                update(contato);
+                setVisualizar(contato);
+            }
+        });
+        
+        this.view.getBtnEditar().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setEditar();
+            }
+        });
+        
         this.view.getBtnFechar().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 fechar();
             }
         });
-        visualizar(contato);
+        
+        setVisualizar(contato);
+        
         this.view.setVisible(true);
 
     }
 
-    private void visualizar(Contato c) {
+    private void setVisualizar(Contato c) {
 
         this.view.setTitle("Visualizar Pessoa");
 
         this.view.getBtnEditar().setVisible(true);
+        this.view.getBtnEditar().setEnabled(true);
         this.view.getBtnSalvar().setEnabled(false);
 
         this.view.getTxtNome().setText(c.getNome());
@@ -73,13 +92,6 @@ public class ManterContatosPresenter {
 
         this.view.getTxtNome().setEditable(false);
         this.view.getTxtTelefone().setEditable(false);
-
-        this.view.getBtnEditar().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                editar(c);
-            }
-        });
 
     }
 
@@ -92,43 +104,57 @@ public class ManterContatosPresenter {
         String nome = this.view.getTxtNome().getText();
         String telefone = this.view.getTxtTelefone().getText();
 
-        if (Pattern.matches("(\\(?\\d{2}\\)?\\s)?(\\d{4,5}\\-\\d{4})", telefone) || Pattern.matches("^\\(?(?:[14689][1-9]|2[12478]|3[1234578]|5[1345]|7[134579])\\)? ?(?:[2-8]|9[1-9])[0-9]{3}\\-?[0-9]{4}$", telefone)) {
-            Contato contato = new Contato(nome, telefone);
+        if (nomeCorreto(nome)) {
+            
+            if(telefoneCorreto(telefone)) {
+                
+                Contato contato = new Contato(nome, telefone);
 
-            try {
+                try {
 
-                contatoDAO.inserir(contato);
+                    contatoDAO.inserir(contato);
+                    JOptionPane.showMessageDialog(
+                            view,
+                            "Contato " + contato.getNome() + " salvo com sucesso ",
+                            "Salvo com sucesso",
+                            JOptionPane.INFORMATION_MESSAGE
+                    );
+
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(
+                            view,
+                            "Erro ao inserir contato: " + ex.getMessage(),
+                            "Salvo com sucesso",
+                            JOptionPane.ERROR_MESSAGE
+                    );
+                } finally {
+                    this.view.getTxtNome().setText("");
+                    this.view.getTxtTelefone().setText("");
+                    this.view.requestFocus();
+                }
+                
+            }else{
+                
                 JOptionPane.showMessageDialog(
-                        view,
-                        "Contato " + contato.getNome() + " salvo com sucesso ",
-                        "Salvo com sucesso",
-                        JOptionPane.INFORMATION_MESSAGE
-                );
-
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(
-                        view,
-                        "Erro ao inserir contato: " + ex.getMessage(),
-                        "Salvo com sucesso",
-                        JOptionPane.ERROR_MESSAGE
-                );
-            } finally {
-                this.view.getTxtNome().setText("");
-                this.view.getTxtTelefone().setText("");
-                this.view.requestFocus();
-            }
-        } else {
-            JOptionPane.showMessageDialog(
                     view,
-                    "numero não valido",
+                    "O telefone deve estar no formato\n (xx)xxxxx-xxxx ou (xx)xxxx-xxxx",
                     "Erro",
                     JOptionPane.INFORMATION_MESSAGE
+                );
+            }  
+            
+        } else {
+            JOptionPane.showMessageDialog(
+                view,
+                "Nome incorreto",
+                "Erro",
+                JOptionPane.INFORMATION_MESSAGE
             );
         }
 
     }
 
-    private void editar(Contato c) {
+    private void setEditar() {
 
         this.view.setTitle("Editar Pessoa");
 
@@ -136,57 +162,77 @@ public class ManterContatosPresenter {
         this.view.getBtnSalvar().setEnabled(true);
         this.view.getTxtNome().setEditable(true);
         this.view.getTxtTelefone().setEditable(true);
-
-        this.view.getBtnSalvar().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                update(c);
-            }
-        });
-
     }
 
     private void update(Contato c) {
-
+        
         this.contatoDAO = new ContatoDAO();
 
         String nome = this.view.getTxtNome().getText();
         String telefone = this.view.getTxtTelefone().getText();
 
-        if (Pattern.matches("(\\(?\\d{2}\\)?\\s)?(\\d{4,5}\\-\\d{4})", telefone) || Pattern.matches("^\\(?(?:[14689][1-9]|2[12478]|3[1234578]|5[1345]|7[134579])\\)? ?(?:[2-8]|9[1-9])[0-9]{3}\\-?[0-9]{4}$", telefone)) {
+        if (nomeCorreto(nome)) {
+            
+            if(telefoneCorreto(telefone)) {
+                
+                Contato contatoNew = new Contato(nome, telefone);
 
-            Contato contatoNew = new Contato(nome, telefone);
+                try {
+                    contatoDAO.atualizar(contatoNew, c);
+                    JOptionPane.showMessageDialog(
+                            view,
+                            "Contato Atualizado!",
+                            "Sucesso",
+                            JOptionPane.INFORMATION_MESSAGE
+                    );
+                    
+                    c.setNome(nome);
+                    c.setTelefone(telefone);
+                    
+                } catch (SQLException ex) {
 
-            try {
-                contatoDAO.atualizar(contatoNew, c);
+                    JOptionPane.showMessageDialog(
+                            view,
+                            "Erro ao atualizar contato: " + ex.getMessage(),
+                            "Erro",
+                            JOptionPane.ERROR_MESSAGE
+                    );
+
+                }
+                
+            } else {
+                
                 JOptionPane.showMessageDialog(
-                        view,
-                        "Contato Atualizado!",
-                        "Sucesso",
-                        JOptionPane.INFORMATION_MESSAGE
-                );
-                visualizar(contatoNew);
-            } catch (SQLException ex) {
-
-                JOptionPane.showMessageDialog(
-                        view,
-                        "Erro ao atualizar contato: " + ex.getMessage(),
-                        "Erro",
-                        JOptionPane.ERROR_MESSAGE
-                );
-
-                visualizar(c);
-
-            }
-        } else {
-            JOptionPane.showMessageDialog(
                     view,
-                    "numero não valido",
+                    "O telefone deve estar no formato\n (xx)xxxxx-xxxx ou (xx)xxxx-xxxx",
                     "Erro",
                     JOptionPane.INFORMATION_MESSAGE
+                );
+                                
+            }
+   
+        } else {
+            JOptionPane.showMessageDialog(
+                view,
+                "Nome incorreto",
+                "Erro",
+                JOptionPane.INFORMATION_MESSAGE
             );
+            
         }
-
+        
+    }
+    
+    private boolean telefoneCorreto(String telefone) {
+        return Pattern.matches("^\\([1-9]{2}\\)(?:[2-8]|9[1-9])[0-9]{3}\\-[0-9]{4}$", telefone);
+    }
+    
+    private boolean nomeCorreto(String nome) {
+        
+        if(nome.replaceAll(" ", "").equals("")) {
+            return false;
+        }
+        return true;
     }
 
 }
