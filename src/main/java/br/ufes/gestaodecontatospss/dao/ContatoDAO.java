@@ -26,7 +26,7 @@ public class ContatoDAO {
         String sql = "CREATE TABLE IF NOT EXISTS contatos("
                 + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + "nome VARCHAR NOT NULL UNIQUE, "
-                + "telefone VARCHAR NOT NULL"
+                + "telefone VARCHAR NOT NULL UNIQUE"
                 + ")";
         
         Connection conexao = ConexaoSQLite.conectar();
@@ -46,6 +46,7 @@ public class ContatoDAO {
         PreparedStatement pstm = conexao.prepareStatement(sql);
         
         pstm.setString(1, contato.getNome());
+        
         pstm.setString(2, contato.getTelefone());
         
         pstm.execute();
