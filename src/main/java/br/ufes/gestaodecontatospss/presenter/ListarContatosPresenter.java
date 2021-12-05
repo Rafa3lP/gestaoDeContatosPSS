@@ -55,6 +55,8 @@ public class ListarContatosPresenter {
                 JOptionPane.ERROR_MESSAGE
             );
             
+            this.view.dispose();
+            
         }
         
         tmContatos = new ContatoTableModel(contatos);
@@ -81,8 +83,7 @@ public class ListarContatosPresenter {
         for(int i = 0; i < this.tbContatos.getColumnCount(); i++) {
             
             contatosSorter.setSortable(i, false);
-            
-            
+             
         }
         
         this.tbContatos.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -116,7 +117,7 @@ public class ListarContatosPresenter {
         this.view.getBtnVisualizar().addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                int linha = tbContatos.getSelectedRow();
+                int linha = tbContatos.convertRowIndexToModel(tbContatos.getSelectedRow());
                 visualizar(linha);
             }
         });
@@ -124,7 +125,7 @@ public class ListarContatosPresenter {
         this.view.getBtnExcluir().addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                int linha = tbContatos.getSelectedRow();
+                int linha = tbContatos.convertRowIndexToModel(tbContatos.getSelectedRow());
                 excluir(linha);
             }
         });
@@ -185,13 +186,8 @@ public class ListarContatosPresenter {
     
     private void habilitaEdicao(boolean habilitado) {
         
-        if(habilitado) {
-            this.view.getBtnVisualizar().setEnabled(true);
-            this.view.getBtnExcluir().setEnabled(true);
-        }else{
-            this.view.getBtnVisualizar().setEnabled(false);
-            this.view.getBtnExcluir().setEnabled(false);
-        }
+        this.view.getBtnVisualizar().setEnabled(habilitado);
+        this.view.getBtnExcluir().setEnabled(habilitado);
         
     }
     
