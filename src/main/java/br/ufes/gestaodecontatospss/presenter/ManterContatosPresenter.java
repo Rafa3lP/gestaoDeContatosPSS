@@ -50,7 +50,7 @@ public class ManterContatosPresenter {
     public ManterContatosPresenter(Contato contato) {
         //modo de visualização
         this.view = new ManterContatosView();
-        
+
         this.view.getBtnSalvar().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -58,23 +58,23 @@ public class ManterContatosPresenter {
                 setVisualizar(contato);
             }
         });
-        
+
         this.view.getBtnEditar().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setEditar();
             }
         });
-        
+
         this.view.getBtnFechar().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 fechar();
             }
         });
-        
+
         setVisualizar(contato);
-        
+
         this.view.setVisible(true);
 
     }
@@ -105,9 +105,9 @@ public class ManterContatosPresenter {
         String telefone = this.view.getTxtTelefone().getText();
 
         if (nomeCorreto(nome)) {
-            
-            if(telefoneCorreto(telefone)) {
-                
+
+            if (telefoneCorreto(telefone)) {
+
                 Contato contato = new Contato(nome, telefone);
 
                 try {
@@ -121,34 +121,43 @@ public class ManterContatosPresenter {
                     );
 
                 } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(
-                            view,
-                            "Erro ao inserir contato: " + ex.getMessage(),
-                            "Salvo com sucesso",
-                            JOptionPane.ERROR_MESSAGE
-                    );
+                    if (ex.getErrorCode() == 19) {
+                        JOptionPane.showMessageDialog(
+                                view,
+                                "nome ou número já cadastrado",
+                                "Erro ao inserir contato",
+                                JOptionPane.ERROR_MESSAGE
+                        );
+                    } else {
+                        JOptionPane.showMessageDialog(
+                                view,
+                                "Erro ao inserir contato!!!\nCodigo do Erro: " + ex.getErrorCode(),
+                                "Erro ao inserir contato",
+                                JOptionPane.ERROR_MESSAGE
+                        );
+                    }
                 } finally {
                     this.view.getTxtNome().setText("");
                     this.view.getTxtTelefone().setText("");
                     this.view.requestFocus();
                 }
-                
-            }else{
-                
+
+            } else {
+
                 JOptionPane.showMessageDialog(
-                    view,
-                    "O telefone deve estar no formato\n (xx)xxxxx-xxxx ou (xx)xxxx-xxxx",
-                    "Erro",
-                    JOptionPane.INFORMATION_MESSAGE
+                        view,
+                        "O telefone deve estar no formato\n (xx)xxxxx-xxxx ou (xx)xxxx-xxxx",
+                        "Erro",
+                        JOptionPane.INFORMATION_MESSAGE
                 );
-            }  
-            
+            }
+
         } else {
             JOptionPane.showMessageDialog(
-                view,
-                "Nome incorreto",
-                "Erro",
-                JOptionPane.INFORMATION_MESSAGE
+                    view,
+                    "Nome incorreto",
+                    "Erro",
+                    JOptionPane.INFORMATION_MESSAGE
             );
         }
 
@@ -165,16 +174,16 @@ public class ManterContatosPresenter {
     }
 
     private void update(Contato c) {
-        
+
         this.contatoDAO = new ContatoDAO();
 
         String nome = this.view.getTxtNome().getText();
         String telefone = this.view.getTxtTelefone().getText();
 
         if (nomeCorreto(nome)) {
-            
-            if(telefoneCorreto(telefone)) {
-                
+
+            if (telefoneCorreto(telefone)) {
+
                 Contato contatoNew = new Contato(nome, telefone);
 
                 try {
@@ -185,10 +194,10 @@ public class ManterContatosPresenter {
                             "Sucesso",
                             JOptionPane.INFORMATION_MESSAGE
                     );
-                    
+
                     c.setNome(nome);
                     c.setTelefone(telefone);
-                    
+
                 } catch (SQLException ex) {
 
                     JOptionPane.showMessageDialog(
@@ -199,37 +208,37 @@ public class ManterContatosPresenter {
                     );
 
                 }
-                
+
             } else {
-                
+
                 JOptionPane.showMessageDialog(
-                    view,
-                    "O telefone deve estar no formato\n (xx)xxxxx-xxxx ou (xx)xxxx-xxxx",
-                    "Erro",
-                    JOptionPane.INFORMATION_MESSAGE
+                        view,
+                        "O telefone deve estar no formato\n (xx)xxxxx-xxxx ou (xx)xxxx-xxxx",
+                        "Erro",
+                        JOptionPane.INFORMATION_MESSAGE
                 );
-                                
+
             }
-   
+
         } else {
             JOptionPane.showMessageDialog(
-                view,
-                "Nome incorreto",
-                "Erro",
-                JOptionPane.INFORMATION_MESSAGE
+                    view,
+                    "Nome incorreto",
+                    "Erro",
+                    JOptionPane.INFORMATION_MESSAGE
             );
-            
+
         }
-        
+
     }
-    
+
     private boolean telefoneCorreto(String telefone) {
         return Pattern.matches("^\\([1-9]{2}\\)(?:[2-9]|9[1-9])[0-9]{3}\\-[0-9]{4}$", telefone);
     }
-    
+
     private boolean nomeCorreto(String nome) {
-        
-        if(nome.replaceAll(" ", "").equals("")) {
+
+        if (nome.replaceAll(" ", "").equals("")) {
             return false;
         }
         return true;
